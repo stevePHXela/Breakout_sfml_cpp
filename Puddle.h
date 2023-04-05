@@ -13,10 +13,12 @@ public:
 
     void resetPostion(int WIN_WIDTH, int WIN_HIGHT);
 
+    inline float getXPosition();
+
+    inline float getYPosition();
+
 private:
     sf::RectangleShape puddle;
-    float width;
-    float hight;
-    float x_pos;
-    float y_pos;
+    sf::Vector2f size;
+    sf::Vector2f position;
 };

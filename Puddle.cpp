@@ -2,31 +2,36 @@
 #include "Puddle.h"
 
 Puddle::Puddle(int WIN_WIDTH, int WIN_HIGHT)
-    : width(100.0f), hight(30.0f)
 {
-    x_pos = (WIN_WIDTH / 2) - 50.f;
-    y_pos = WIN_HIGHT / 1.1f;
-    puddle.setSize(sf::Vector2f(width, hight));
+    size.x = 100.f;
+    size.y = 30.f;
+    position.x = (float)((WIN_WIDTH / 2) - 50);
+    position.y = (float)(WIN_HIGHT - 64);
+    puddle.setSize(sf::Vector2f(size.x, size.y));
 }
 
 void Puddle::draw(sf::RenderWindow& window)
 {
     puddle.setFillColor(sf::Color::Green);
-    puddle.setPosition(x_pos, y_pos);
+    puddle.setPosition(position.x, position.y);
     window.draw(puddle);
 }
 
 void Puddle::move(float dx, int WIN_WIDTH)
 {
-    x_pos += dx;
-    if (x_pos < 0)
-        x_pos = 0 + 16;
-    else if (x_pos + width > WIN_WIDTH)
-        x_pos = WIN_WIDTH - (width + 16);
+    position.x += dx;
+    if (position.x < 0)
+        position.x = 0 + 16;
+    else if (position.x + size.x > WIN_WIDTH)
+        position.x = WIN_WIDTH - (size.x + 16);
 }
 
 void Puddle::resetPostion(int WIN_WIDTH, int WIN_HIGHT)
 {
-    x_pos = (WIN_WIDTH / 2) - 50.f;
-    y_pos = WIN_HIGHT / 1.1f;
+    position.x = (float)((WIN_WIDTH / 2) - 50);
+    position.y = (float)(WIN_HIGHT - 64);
 }
+
+inline float Puddle::getXPosition() { return position.x; }
+
+inline float Puddle::getYPosition() { return position.y; }
