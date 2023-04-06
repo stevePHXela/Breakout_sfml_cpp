@@ -3,7 +3,10 @@
 #include <SFML\Graphics.hpp>
 #include <SFML\Window.hpp>
 #include <SFML\System.hpp>
+#include "SimpleMath.h"
 #include "Puddle.h"
+
+using namespace DirectX::SimpleMath;
 
 static const int WIN_WIDTH = 900;
 static const int WIN_HIGHT = 600;
@@ -15,7 +18,7 @@ class Ball
 {
 public:
     Ball(int WIN_WIDTH, int WIN_HIGHT)
-        : size(12.f)
+        : size(12.f), speed(240.f)
     {
         position.x = (float)((WIN_WIDTH / 2) - 16);
         position.y = (float)(WIN_HIGHT - 100);
@@ -63,14 +66,20 @@ public:
         }
     }
 
+    /*void update(float deltaTime)
+    {
+        position += direction * speed * deltaTime;
+    }*/
+
     void checkForCollision(int WIN_WIDTH, int WIN_HIGHT)
     {
-        if (position.y == WIN_HIGHT)
-        {
-            gameOver = true;
-        }
+        float x = position.x;
+        float y = position.y;
+        float r = size;
+        float w = (float)WIN_WIDTH;
+        float h = (float)WIN_HIGHT;
 
-        if (position.x - size <= 0 || position.x + size >= WIN_WIDTH)
+        if ((x <= 0 || x >= w + r) || (y <= 0 || y >= h + r))
         {
             if (direction == topRight)
             {
@@ -80,34 +89,17 @@ public:
             {
                 direction = topRight;
             }
-            if (direction == bottomRight)
-            {
-                direction = bottomLeft;
-            }
-            if (direction == bottomLeft)
-            {
-                direction = bottomRight;
-            }
-            
-        }
-
-        if (position.y - size >= 0)
-        {
             if (direction == top)
             {
                 direction = bottom;
             }
-            if (direction == topRight)
+            if (direction == bottom)
             {
-                direction = topLeft;
+                direction = top;
             }
-            if (direction == topLeft)
+            if (direction == bottomLeft)
             {
-                direction = topRight;
-            }
-            if (direction == bottomRight)
-            {
-                direction = bottomLeft;
+                direction = bottomRight;
             }
             if (direction == bottomLeft)
             {
@@ -119,13 +111,14 @@ public:
 private:
     void randomDirection()
     {
-        direction = (Directions)(std::rand() & 7);
+        direction = static_cast<Directions>(std::rand() & 7);
     }
 
 private:
     sf::CircleShape ball;
     Directions direction;
     sf::Vector2f position;
+    float speed;
     float size;
 };
 
@@ -170,7 +163,6 @@ int main()
         {
             puddle.move(3.f * deltaTime * speed, WIN_WIDTH);
         }
-
 
         window.clear();
         puddle.draw(window);
