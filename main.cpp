@@ -12,18 +12,16 @@ static const int WIN_WIDTH = 900;
 static const int WIN_HIGHT = 600;
 static const float speed = 240.f;
 bool gameOver = false;
-const enum Directions {stop, top, topRight, topLeft, bottom, bottomLeft, bottomRight};
 
 class Ball
 {
 public:
     Ball(int WIN_WIDTH, int WIN_HIGHT)
-        : size(12.f), speed(240.f)
+        : size(12.f), speed(280.f)
     {
-        position.x = (float)((WIN_WIDTH / 2) - 16);
-        position.y = (float)(WIN_HIGHT - 100);
+        position = { (float)((WIN_WIDTH / 2) - 16), (float)(WIN_HIGHT - 100) };
         ball.setRadius(size);
-        direction = stop;
+        direction = {1.0, -1.0};
     }
 
 public:
@@ -34,90 +32,46 @@ public:
         window.draw(ball);
     }
 
-    void move()
+    void update(float dt)
     {
-        switch (direction)
-        {
-        case stop:
-            randomDirection();
-            break;
-        case top:
-            position.y--;
-            break;
-        case topRight:
-            position.y--;
-            position.x++;
-            break;
-        case topLeft:
-            position.y--;
-            position.x--;
-            break;
-        case bottom:
-            position.y++;
-            break;
-        case bottomLeft:
-            position.y++;
-            position.x--;
-            break;
-        case bottomRight:
-            position.y++;
-            position.x++;
-            break;
-        }
+        position += direction * speed * dt;
     }
 
-    /*void update(float deltaTime)
+    void checkForCollision(Puddle& puddle, int WIN_WIDTH, int WIN_HIGHT)
     {
-        position += direction * speed * deltaTime;
-    }*/
-
-    void checkForCollision(int WIN_WIDTH, int WIN_HIGHT)
-    {
-        float x = position.x;
-        float y = position.y;
         float r = size;
         float w = (float)WIN_WIDTH;
         float h = (float)WIN_HIGHT;
 
-        if ((x <= 0 || x >= w + r) || (y <= 0 || y >= h + r))
+        // Check for collision with left and right walls
+        if (position.x - r <= 0.f || position.x + r >= w)
         {
-            if (direction == topRight)
-            {
-                direction = topLeft;
-            }
-            if (direction == topLeft)
-            {
-                direction = topRight;
-            }
-            if (direction == top)
-            {
-                direction = bottom;
-            }
-            if (direction == bottom)
-            {
-                direction = top;
-            }
-            if (direction == bottomLeft)
-            {
-                direction = bottomRight;
-            }
-            if (direction == bottomLeft)
-            {
-                direction = bottomRight;
-            }
+            direction.x *= -1.f;
+        }
+
+        // Check for collision with top wall
+        if (position.y - r <= 0.f)
+        {
+            direction.y *= -1.f;
+        }
+
+        // Check for collision with paddle
+        if (position.y - r >= h - 100.f)
+        {
+            direction.y *= -1.f;
+        }
+
+        // Check for collision with bottom wall
+        if (position.y + r >= h)
+        {
+            gameOver = true;
         }
     }
 
 private:
-    void randomDirection()
-    {
-        direction = static_cast<Directions>(std::rand() & 7);
-    }
-
-private:
     sf::CircleShape ball;
-    Directions direction;
-    sf::Vector2f position;
+    Vector2 direction;
+    Vector2 position;
     float speed;
     float size;
 };
@@ -168,8 +122,8 @@ int main()
         puddle.draw(window);
 
         ball.draw(window);
-        ball.move();
-        ball.checkForCollision(WIN_WIDTH, WIN_HIGHT);
+        ball.update(deltaTime);
+        ball.checkForCollision(puddle, WIN_WIDTH, WIN_HIGHT);
 
         window.display();
     }
