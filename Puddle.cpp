@@ -32,6 +32,6 @@ void Puddle::resetPostion(int WIN_WIDTH, int WIN_HIGHT)
     position.y = (float)(WIN_HIGHT - 64);
 }
 
-inline float Puddle::getXPosition() { return position.x; }
+inline float Puddle::getXPosition() { return puddle.getPosition().x; }
 
-inline float Puddle::getYPosition() { return position.y; }
+inline float Puddle::getYPosition() { return puddle.getPosition().y; }

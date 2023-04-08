@@ -56,7 +56,7 @@ public:
         }
 
         // Check for collision with paddle
-        if (position.y - r >= h - 100.f)
+        if (position.x >= puddle.getXPosition() - 100.f && position.y >= puddle.getYPosition())
         {
             direction.y *= -1.f;
         }
