@@ -23,10 +23,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Puddle.h">
+    <ClInclude Include="SimpleMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMath.h">
+    <ClInclude Include="Puddle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

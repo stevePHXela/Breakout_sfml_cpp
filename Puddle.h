@@ -1,6 +1,7 @@
-#pragma
+#pragma once
 
 #include <SFML\Graphics.hpp>
+
 
 class Puddle
 {
@@ -13,9 +14,11 @@ public:
 
     void resetPostion(int WIN_WIDTH, int WIN_HIGHT);
 
-    inline float getXPosition();
+    float getXPosition();
 
-    inline float getYPosition();
+    float getYPosition();
+
+    float getWidth();
 
 private:
     sf::RectangleShape puddle;

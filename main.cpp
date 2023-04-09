@@ -1,5 +1,5 @@
 #include <iostream>
-#include <ctime>
+#include <vector>
 #include <SFML\Graphics.hpp>
 #include <SFML\Window.hpp>
 #include <SFML\System.hpp>
@@ -12,6 +12,7 @@ static const int WIN_WIDTH = 900;
 static const int WIN_HIGHT = 600;
 static const float speed = 240.f;
 bool gameOver = false;
+
 
 class Ball
 {
@@ -56,13 +57,13 @@ public:
         }
 
         // Check for collision with paddle
-        if (position.x >= puddle.getXPosition() - 100.f && position.y >= puddle.getYPosition())
+        if (position.x + r >= puddle.getXPosition() && position.y + r >= puddle.getYPosition())
         {
             direction.y *= -1.f;
         }
 
         // Check for collision with bottom wall
-        if (position.y + r >= h)
+        if (position.y + r>= h)
         {
             gameOver = true;
         }
@@ -76,12 +77,10 @@ private:
     float size;
 };
 
+
 int main()
 {
-    srand(time(NULL));
-
     sf::RenderWindow window(sf::VideoMode(WIN_WIDTH, WIN_HIGHT), "Breakout Game", sf::Style::Close);
-
     window.setFramerateLimit(360);
     sf::Clock clock;
     float deltaTime;
@@ -89,7 +88,7 @@ int main()
     Puddle puddle(WIN_WIDTH, WIN_HIGHT);
     Ball ball(WIN_WIDTH, WIN_HIGHT);
         
-    while (window.isOpen())
+    while (window.isOpen() && !gameOver)
     {
         sf::Event e;
         while (window.pollEvent(e))
@@ -111,16 +110,16 @@ int main()
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
         {
-            puddle.move(-3.f * deltaTime * speed, WIN_WIDTH);
+            puddle.move(-3.f * speed * deltaTime, WIN_WIDTH);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         {
-            puddle.move(3.f * deltaTime * speed, WIN_WIDTH);
+            puddle.move(3.f * speed * deltaTime, WIN_WIDTH);
         }
 
         window.clear();
-        puddle.draw(window);
 
+        puddle.draw(window);
         ball.draw(window);
         ball.update(deltaTime);
         ball.checkForCollision(puddle, WIN_WIDTH, WIN_HIGHT);

@@ -1,4 +1,3 @@
-#include <SFML\Graphics.hpp>
 #include "Puddle.h"
 
 Puddle::Puddle(int WIN_WIDTH, int WIN_HIGHT)
@@ -32,6 +31,9 @@ void Puddle::resetPostion(int WIN_WIDTH, int WIN_HIGHT)
     position.y = (float)(WIN_HIGHT - 64);
 }
 
-inline float Puddle::getXPosition() { return puddle.getPosition().x; }
 
-inline float Puddle::getYPosition() { return puddle.getPosition().y; }
+float Puddle::getXPosition() { return puddle.getPosition().x; }
+
+float Puddle::getYPosition() { return puddle.getPosition().y; }
+
+float Puddle::getWidth() { return puddle.getSize().x; }
