@@ -13,6 +13,7 @@ void Puddle::draw(sf::RenderWindow& window)
 {
     puddle.setFillColor(sf::Color::Green);
     puddle.setPosition(position.x, position.y);
+    puddle.setOrigin(size.x / 2, size.y / 2);
     window.draw(puddle);
 }
 
@@ -31,9 +32,16 @@ void Puddle::resetPostion(int WIN_WIDTH, int WIN_HIGHT)
     position.y = (float)(WIN_HIGHT - 64);
 }
 
+sf::FloatRect Puddle::getBoundingBox()
+{
+    return sf::FloatRect(getXPosition(), getYPosition(), getWidth(), getHeight());
+}
+
 
 float Puddle::getXPosition() { return puddle.getPosition().x; }
 
 float Puddle::getYPosition() { return puddle.getPosition().y; }
 
 float Puddle::getWidth() { return puddle.getSize().x; }
+
+float Puddle::getHeight() { return puddle.getSize().y; }

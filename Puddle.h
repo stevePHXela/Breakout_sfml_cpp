@@ -14,11 +14,16 @@ public:
 
     void resetPostion(int WIN_WIDTH, int WIN_HIGHT);
 
+    sf::FloatRect getBoundingBox();
+
     float getXPosition();
 
     float getYPosition();
 
     float getWidth();
+
+    float getHeight();
+
 
 private:
     sf::RectangleShape puddle;

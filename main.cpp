@@ -56,17 +56,29 @@ public:
             direction.y *= -1.f;
         }
 
-        // Check for collision with paddle
-        if (position.x + r >= puddle.getXPosition() && position.y + r >= puddle.getYPosition())
+        sf::FloatRect ballBox(position.x - r, position.y - r, size * 2.f, size * 2.f);
+        sf::FloatRect puddleBox = puddle.getBoundingBox();
+
+        // check collision with top side of paddle
+        if (ballBox.intersects(sf::FloatRect(puddleBox.left, puddleBox.top - r, puddleBox.width, r)))
         {
             direction.y *= -1.f;
         }
 
-        // Check for collision with bottom wall
-        if (position.y + r>= h)
+        // check collision with left side of paddle
+        if (ballBox.intersects(sf::FloatRect(puddleBox.left - r, puddleBox.top, r, puddleBox.height)))
         {
-            gameOver = true;
+            direction.x *= -1.f;
         }
+
+        // check collision with right side of paddle
+        if (ballBox.intersects(sf::FloatRect(puddleBox.left + puddleBox.width, puddleBox.top, r, puddleBox.height)))
+        {
+            direction.x *= -1.f;
+        }
+
+        // bagyyyyyyyyyyyyyyyy
+
     }
 
 private:
