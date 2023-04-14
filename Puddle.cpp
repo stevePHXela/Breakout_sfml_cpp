@@ -1,19 +1,17 @@
 #include "Puddle.h"
 
 Puddle::Puddle(int WIN_WIDTH, int WIN_HIGHT)
+    : size({100.f, 30.f})
 {
-    size.x = 100.f;
-    size.y = 30.f;
-    position.x = (float)((WIN_WIDTH / 2) - 50);
-    position.y = (float)(WIN_HIGHT - 64);
-    puddle.setSize(sf::Vector2f(size.x, size.y));
+    position = { (float)(WIN_WIDTH / 2), (float)(WIN_HIGHT - 50) };
+    puddle.setSize(size);
+    //puddle.setOrigin(size / 2.f);
 }
 
 void Puddle::draw(sf::RenderWindow& window)
 {
     puddle.setFillColor(sf::Color::Green);
     puddle.setPosition(position.x, position.y);
-    puddle.setOrigin(size.x / 2, size.y / 2);
     window.draw(puddle);
 }
 
@@ -36,7 +34,6 @@ sf::FloatRect Puddle::getBoundingBox()
 {
     return sf::FloatRect(getXPosition(), getYPosition(), getWidth(), getHeight());
 }
-
 
 float Puddle::getXPosition() { return puddle.getPosition().x; }
 

@@ -55,31 +55,31 @@ public:
         {
             direction.y *= -1.f;
         }
-
-        sf::FloatRect ballBox(position.x - r, position.y - r, size * 2.f, size * 2.f);
-        sf::FloatRect puddleBox = puddle.getBoundingBox();
-
-        // check collision with top side of paddle
-        if (ballBox.intersects(sf::FloatRect(puddleBox.left, puddleBox.top - r, puddleBox.width, r)))
+        
+        // Check for collision with top side of paddle
+        if (position.x + (r * 2.f) >= puddle.getXPosition() &&
+            position.y + (r * 2.f) >= puddle.getYPosition() &&
+            position.x < puddle.getXPosition() + puddle.getWidth())
         {
+
             direction.y *= -1.f;
         }
 
-        // check collision with left side of paddle
-        if (ballBox.intersects(sf::FloatRect(puddleBox.left - r, puddleBox.top, r, puddleBox.height)))
+        // Check for collision with sides of paddle
+        if (position.x + r >= puddle.getXPosition() - (puddle.getWidth() / 2.f) - 2.5f && // right side of ball is past left side of paddle
+            position.y >= puddle.getYPosition() && // ball is at or below top of paddle
+            position.y <= puddle.getYPosition() + puddle.getHeight()) // ball is at or above bottom of paddle
         {
             direction.x *= -1.f;
         }
 
-        // check collision with right side of paddle
-        if (ballBox.intersects(sf::FloatRect(puddleBox.left + puddleBox.width, puddleBox.top, r, puddleBox.height)))
+        // Check for collision with bottom wall
+        if (position.y + r >= h)
         {
-            direction.x *= -1.f;
+            gameOver = true;
         }
-
-        // bagyyyyyyyyyyyyyyyy
-
     }
+
 
 private:
     sf::CircleShape ball;

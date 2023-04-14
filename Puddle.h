@@ -2,7 +2,6 @@
 
 #include <SFML\Graphics.hpp>
 
-
 class Puddle
 {
 public:
@@ -23,7 +22,6 @@ public:
     float getWidth();
 
     float getHeight();
-
 
 private:
     sf::RectangleShape puddle;
